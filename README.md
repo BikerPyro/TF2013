@@ -1,16 +1,12 @@
-# Source SDK 2013
+# TF2013
 
-Source code for Source SDK 2013.
-
-Contains the game code for Half-Life 2, HL2: DM and TF2.
-
-**Now including Team Fortress 2! ✨**
+A project that aims to recreate 2013 TF2, using the current SDK.
 
 ## Build instructions
 
 Clone the repository using the following command:
 
-`git clone https://github.com/ValveSoftware/source-sdk-2013`
+`git clone https://github.com/BikerPyro/tf2013)`
 
 ### Windows
 
