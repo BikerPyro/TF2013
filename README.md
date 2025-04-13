@@ -11,7 +11,7 @@ Conneath- Contributor
 
 Clone the repository using the following command:
 
-`git clone https://github.com/BikerPyro/tf2013)`
+`git clone https://github.com/BikerPyro/tf2013`
 
 ### Windows
 
