@@ -2,6 +2,10 @@
 
 A project that aims to recreate 2013 TF2, using the current SDK.
 
+## Credits
+Me- Lead developer
+Conneath- Contributor 
+
 ## Build instructions
 
 Clone the repository using the following command:
