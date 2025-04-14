@@ -459,6 +459,8 @@ CTFGrenadePipebombProjectile* CTFGrenadePipebombProjectile::Create( const Vector
 	
 	const char* pszBombClass = GetPipebombClass( iPipeBombDetonateType );
 	CTFGrenadePipebombProjectile *pGrenade = static_cast<CTFGrenadePipebombProjectile*>( CBaseEntity::CreateNoSpawn( pszBombClass, position, angles, pOwner ) );
+	int iNoSpin = 0;
+	CALL_ATTRIB_HOOK_INT_ON_OTHER(pGrenade->GetOwnerEntity(), iNoSpin, grenade_no_spin);
 	if ( pGrenade )
 	{
 		// Set the pipebomb mode before calling spawn, so the model & associated vphysics get setup properly
@@ -466,7 +468,7 @@ CTFGrenadePipebombProjectile* CTFGrenadePipebombProjectile::Create( const Vector
 		DispatchSpawn( pGrenade );
 
 		pGrenade->InitGrenade( velocity, angVelocity, pOwner, weaponInfo );
-		pGrenade->SetDamage( pGrenade->GetDamage() * flMultDmg );
+		pGrenade->SetDamage(((iNoSpin != 2 || pGrenade->m_iType != TF_GL_MODE_REGULAR) ? pGrenade->GetDamage() : TF_WEAPON_GRENADE_XBOX_DAMAGE) * flMultDmg);
 		pGrenade->SetFullDamage( pGrenade->GetDamage() );
 
 		if ( pGrenade->m_iType != TF_GL_MODE_REMOTE_DETONATE )
@@ -818,6 +820,9 @@ void CTFGrenadePipebombProjectile::PipebombTouch( CBaseEntity *pOther )
 		}
 
 		// Save this entity as enemy, they will take 100% damage.
+		int iNoSpin = 0;
+		CALL_ATTRIB_HOOK_INT_ON_OTHER(m_hLauncher, iNoSpin, grenade_no_spin);
+		if (iNoSpin != 2)
 		m_hEnemy = pOther;	
 
 		// Restore damage. See comment in CTFGrenadePipebombProjectile::Create() above to understand this.

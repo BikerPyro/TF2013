@@ -137,6 +137,10 @@ void CTFWeaponBaseGrenadeProj::BounceOff( IPhysicsObject *pPhysics )
 float CTFWeaponBaseGrenadeProj::GetDamageRadius() 
 { 
 	float flRadius = m_DmgRadius;
+	int iNoSpin = 0;
+	CALL_ATTRIB_HOOK_INT_ON_OTHER(m_hLauncher, iNoSpin, grenade_no_spin);
+	if (iNoSpin == 2)
+		flRadius *= (159 / 146);
 	CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( m_hLauncher, flRadius, mult_explosion_radius );
 	return flRadius; 
 }	
@@ -388,7 +392,9 @@ void CTFWeaponBaseGrenadeProj::Explode( trace_t *pTrace, int bitsDamageType )
 
 	float flRadius = GetDamageRadius();
 
-	CTFRadiusDamageInfo radiusinfo( &info, vecOrigin, flRadius, NULL, TF_GRENADE_JUMP_RADIUS );
+	int iNoSpin = 0;
+	CALL_ATTRIB_HOOK_INT_ON_OTHER(m_hLauncher, iNoSpin, grenade_no_spin);
+	CTFRadiusDamageInfo radiusinfo(&info, vecOrigin, flRadius, NULL, (iNoSpin != 2) ? TF_GRENADE_JUMP_RADIUS : 159);
 	TFGameRules()->RadiusDamage( radiusinfo );
 
 	// Don't decal players with scorch.
