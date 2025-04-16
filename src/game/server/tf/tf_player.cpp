@@ -9341,8 +9341,8 @@ int CTFPlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 
 		if ( m_Shared.InCond( TF_COND_PHASE ) )
 		{
-			m_Shared.m_ConditionData[ TF_COND_PHASE ].m_nPreventedDamageFromCondition += info.GetDamage();
-			m_Shared.m_iPhaseDamage += info.GetDamage();
+			//m_Shared.m_ConditionData[ TF_COND_PHASE ].m_nPreventedDamageFromCondition += info.GetDamage();
+			//m_Shared.m_iPhaseDamage += info.GetDamage();
 		}
 
 		bTookDamage = false;

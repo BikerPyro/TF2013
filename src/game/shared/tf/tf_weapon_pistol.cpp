@@ -93,24 +93,8 @@ void CTFPistol_ScoutPrimary::PlayWeaponShootSound( void )
 //-----------------------------------------------------------------------------
 void CTFPistol_ScoutPrimary::SecondaryAttack( void )
 {
-	CTFPlayer *pOwner = ToTFPlayer( GetPlayerOwner() );
-	if ( !pOwner )
-		return;
-
-	if ( !CanAttack() )
-		return;
-
-	if ( m_flNextSecondaryAttack > gpGlobals->curtime )
-		return;
-
-	pOwner->DoAnimationEvent( PLAYERANIMEVENT_ATTACK_SECONDARY );
-	SendWeaponAnim( ACT_SECONDARY_VM_ALTATTACK );
-
-	m_flNextPrimaryAttack = gpGlobals->curtime + 0.6f;
-	m_flNextSecondaryAttack = gpGlobals->curtime + 1.5f;
-	m_flPushTime = gpGlobals->curtime + 0.2f;	// Anim delay
-
-	EmitSound( "Weapon_Hands.Push" );
+	// Do nothing; disabling ALT attack for this weapon.
+	return;
 }
 
 //-----------------------------------------------------------------------------
