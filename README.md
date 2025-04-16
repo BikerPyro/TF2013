@@ -5,7 +5,10 @@ A project that aims to recreate 2013 TF2, using the current SDK.
 ## Credits
 Me- Lead developer
 
-Conneath- Contributor 
+Conneath- Contributor
+
+justalurker4902- Contributor
+
 
 ## Build instructions
 
