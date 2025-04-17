@@ -6143,10 +6143,10 @@ void CTFPlayerShared::OnAddShieldCharge( void )
 	m_hPlayersVisibleAtChargeStart.Purge();
 
 	// Remove debuffs
-	for ( int i = 0; g_aDebuffConditions[i] != TF_COND_LAST; i++ )
-	{
-		RemoveCond( g_aDebuffConditions[i] );
-	}
+	//for ( int i = 0; g_aDebuffConditions[i] != TF_COND_LAST; i++ )
+	//{
+		//RemoveCond( g_aDebuffConditions[i] );
+	//}
 
 	// store the players we CAN see for the TF_DEMOMAN_KILL_PLAYER_YOU_DIDNT_SEE achievement
 	CUtlVector<CTFPlayer *> vecPlayers;
@@ -10901,11 +10901,6 @@ float CTFPlayer::TeamFortress_CalculateMaxSpeed( bool bIgnoreSpecialAbility /*= 
 
 	// If we have an item with a move speed modification, apply it to the final speed.
 	CALL_ATTRIB_HOOK_FLOAT( maxfbspeed, mult_player_movespeed );
-
-	if ( m_Shared.IsShieldEquipped() )
-	{
-		CALL_ATTRIB_HOOK_FLOAT( maxfbspeed, mult_player_movespeed_shieldrequired );
-	}
 
 	if ( playerclass == TF_CLASS_MEDIC )
 	{

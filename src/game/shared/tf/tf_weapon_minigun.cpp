@@ -1098,7 +1098,7 @@ void CTFMinigun::UpdateBarrelMovement()
 	if ( m_flBarrelCurrentVelocity != m_flBarrelTargetVelocity )
 	{
 		// update barrel velocity to bring it up to speed or to rest
-		m_flBarrelCurrentVelocity = Approach( m_flBarrelTargetVelocity, m_flBarrelCurrentVelocity, 24.0f * gpGlobals->frametime );
+		m_flBarrelCurrentVelocity = Approach( m_flBarrelTargetVelocity, m_flBarrelCurrentVelocity, 30.0f * gpGlobals->frametime );
 
 		if ( 0 == m_flBarrelCurrentVelocity )
 		{
