@@ -2860,7 +2860,7 @@ void CTFPlayer::PrecachePlayerModels( void )
 			PrecacheModel( pszModel );
 		}
 
-/*
+
 		if ( !IsX360() )
 		{
 			// Precache the hardware facial morphed models as well.
@@ -2870,7 +2870,7 @@ void CTFPlayer::PrecachePlayerModels( void )
 				PrecacheModel( pszHWMModel );
 			}
 		}
-*/
+
 	}
 	
 	// Always precache the silly gibs.
@@ -10058,10 +10058,8 @@ bool CTFPlayer::CheckBlockBackstab( CTFPlayer *pTFAttacker )
 				// Unequip.
 				CTFWearable *pItem = dynamic_cast<CTFWearable *>( pEntity );
 				pItem->Break();
-				pItem->AddEffects( EF_NODRAW );
+				pItem->RemoveFrom(this);
 
-				// reset the charge.
-				m_Shared.SetItemChargeMeter( LOADOUT_POSITION_SECONDARY, 0.f );
 			}
 
 			// tell the bot his Razorback just got broken
@@ -10684,7 +10682,7 @@ int CTFPlayer::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 								}
 							}
 
-// 							// Do an AE when it's a headshot
+ 							// Do an AE when it's a headshot
 // 							JarExplode( entindex(), pTFAttacker, pTFWeapon, pTFWeapon, info.GetDamagePosition(), pTFAttacker->GetTeamNumber(), tf_space_thrust_scout.GetFloat(), TF_COND_URINE, flJarateTime, "peejar_impact", TF_WEAPON_PEEJAR_EXPLODE_SOUND );
 // 							NDebugOverlay::Sphere( info.GetDamagePosition(), tf_space_thrust_scout.GetFloat(), 255, 20, 20, true, 5.f );
 						}
@@ -11509,8 +11507,7 @@ void CTFPlayer::OnKilledOther_Effects( CBaseEntity *pVictim, const CTakeDamageIn
 	if ( iHealOnKill != 0 )
 	{
 		int iHealthToAdd = MIN( iHealOnKill, m_Shared.GetMaxBuffedHealth() - m_iHealth );
-		TakeHealth( iHealthToAdd, DMG_GENERIC );
-		//m_iHealth += iHealthToAdd;
+		m_iHealth += iHealthToAdd;
 
 		IGameEvent *event = gameeventmanager->CreateEvent( "player_healonhit" );
 		if ( event )
@@ -14049,31 +14046,31 @@ int CTFPlayer::GiveAmmo( int iCount, int iAmmoIndex, bool bSuppressSound, EAmmoS
 	// ammo.
 	if ( iAmmoIndex != TF_AMMO_METAL )
 	{
-		//int iAmmoBecomesHealth = 0;
-		//CALL_ATTRIB_HOOK_INT( iAmmoBecomesHealth, ammo_becomes_health );
-		//if ( iAmmoBecomesHealth == 1 )
-		//{
-		//	// Ammo from ground pickups is converted to health.
-		//	if ( eAmmoSource == kAmmoSource_Pickup )
-		//	{
-		//		int iTakenHealth = TakeHealth( iCount, DMG_GENERIC );
-		//		if ( iTakenHealth > 0 )
-		//		{
-		//			if ( !bSuppressSound )
-		//			{
-		//				EmitSound( "BaseCombatCharacter.AmmoPickup" );
-		//			}
-		//			m_Shared.HealthKitPickupEffects( iCount );
-		//		}
-		//		return iTakenHealth;
-		//	}
+		int iAmmoBecomesHealth = 0;
+		CALL_ATTRIB_HOOK_INT( iAmmoBecomesHealth, ammo_becomes_health );
+		if ( iAmmoBecomesHealth == 1 )
+		{
+			// Ammo from ground pickups is converted to health.
+			if ( eAmmoSource == kAmmoSource_Pickup )
+			{
+				int iTakenHealth = TakeHealth( iCount, DMG_GENERIC );
+				if ( iTakenHealth > 0 )
+				{
+					if ( !bSuppressSound )
+					{
+						EmitSound( "BaseCombatCharacter.AmmoPickup" );
+					}
+					m_Shared.HealthKitPickupEffects( iCount );
+				}
+				return iTakenHealth;
+			}
 
-		//	// Ammo from the cart or engineer dispensers is flatly ignored.
-		//	if ( eAmmoSource == kAmmoSource_DispenserOrCart )
-		//		return 0;
+			// Ammo from the cart or engineer dispensers is flatly ignored.
+			if ( eAmmoSource == kAmmoSource_DispenserOrCart )
+				return 0;
 
-		//	Assert( eAmmoSource == kAmmoSource_Resupply );
-		//}
+			Assert( eAmmoSource == kAmmoSource_Resupply );
+		}
 
 		// Items that rely on timers to refill ammo use these attributes
 		// Prevents "touch supply closet and spam the thing" scenario.

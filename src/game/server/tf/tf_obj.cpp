@@ -2261,7 +2261,7 @@ void CBaseObject::CreateObjectGibs( void )
 	if ( IsMiniBuilding() )
 	{
 		// STAGING_ENGY
-		nMetalPerGib = 0;
+		nMetalPerGib = 7;
 		nLeftOver = 0;
 	}
 

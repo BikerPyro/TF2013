@@ -976,6 +976,7 @@ CTFProjectile_Cleaver::CTFProjectile_Cleaver()
 
 #ifdef GAME_DLL
 #define FLIGHT_TIME_TO_REDUCE_COOLDOWN	0.5f
+#define FLIGHT_TIME_TO_MAX_DMG	1.f
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
@@ -1010,16 +1011,14 @@ void CTFProjectile_Cleaver::OnHit( CBaseEntity *pOther )
 
 	CBaseEntity *pInflictor = GetLauncher();
 
-	float flLifeTime = gpGlobals->curtime - m_flCreationTime;
-	if ( flLifeTime >= FLIGHT_TIME_TO_REDUCE_COOLDOWN )
-	{
-		auto pLauncher = dynamic_cast<CTFWeaponBase*>( pInflictor );
-		if ( pLauncher && pOwner != pPlayer && pLauncher->HasEffectBarRegeneration() )
-		{
-			pLauncher->DecrementBarRegenTime( 1.5f );
-		}
-	}
+	bool bIsMiniCrit = false;
 
+	float flLifeTime = gpGlobals->curtime - m_flCreationTime;
+
+	if (flLifeTime >= FLIGHT_TIME_TO_MAX_DMG)
+	{
+		bIsMiniCrit = true;
+	}
 	// just do the bleed effect directly since the bleed
 	// attribute comes from the inflictor, which is the cleaver.
 	pPlayer->m_Shared.MakeBleed( pOwner, (CTFCleaver *)GetLauncher(), 5.f );
@@ -1033,7 +1032,7 @@ void CTFProjectile_Cleaver::OnHit( CBaseEntity *pOther )
 	info.SetInflictor( pInflictor ); 
 	info.SetWeapon( pInflictor );
 	info.SetDamage( GetDamage() );
-	info.SetDamageCustom( TF_DMG_CUSTOM_CLEAVER );
+	info.SetDamageCustom(bIsMiniCrit ? TF_DMG_CUSTOM_CLEAVER_CRIT : TF_DMG_CUSTOM_CLEAVER);
 	info.SetDamagePosition( GetAbsOrigin() );
 	int iDamageType = GetDamageType();
 	if ( IsCritical() )

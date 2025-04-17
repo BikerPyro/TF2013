@@ -93,14 +93,14 @@ ConVar mp_usehwmmodels( "mp_usehwmmodels", "0", NULL, "Enable the use of the hw 
 
 bool UseHWMorphModels()
 {
-// #ifdef CLIENT_DLL 
-// 	if ( mp_usehwmmodels.GetInt() == 0 )
-// 		return g_pMaterialSystemHardwareConfig->HasFastVertexTextures();
-// 
-// 	return mp_usehwmmodels.GetInt() > 0;
-// #else
-// 	return false;
-// #endif
+ #ifdef CLIENT_DLL 
+ 	if ( mp_usehwmmodels.GetInt() == 0 )
+ 		return g_pMaterialSystemHardwareConfig->HasFastVertexTextures();
+ 
+ 	return mp_usehwmmodels.GetInt() > 0;
+ #else
+ 	return false;
+ #endif
 	return false;
 }
 

@@ -622,7 +622,10 @@ bool CObjectSentrygun::OnWrenchHit( CTFPlayer *pPlayer, CTFWrench *pWrench, Vect
 		{
 			flRepairAmount *= SHIELD_NORMAL_VALUE;
 		}
-		
+		if (IsMiniBuilding())
+		{
+			flRepairAmount = 0.f;
+		}
 		if ( Command_Repair( pPlayer, flRepairAmount, 1.f ) )
 		{
 			DoWrenchHitEffect( hitLoc, true, false );

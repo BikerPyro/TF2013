@@ -10979,11 +10979,11 @@ float CTFPlayer::TeamFortress_CalculateMaxSpeed( bool bIgnoreSpecialAbility /*= 
 			// Make this change based on attrs, hardcode right now
 			maxfbspeed *= RemapValClamped( m_Shared.GetScoutHypeMeter(), 0.0f, 100.0f, 1.0f, 1.45f );
 		}
-		// Atomic Punch gives a move bonus while active
-// 		if ( m_Shared.InCond( TF_COND_PHASE ) )
-// 		{
-// 			maxfbspeed *= 1.25f;
-// 		}
+		// Crit-a-Cola gives a move bonus while active
+ 		if ( m_Shared.InCond( TF_COND_ENERGY_BUFF) )
+ 		{
+ 			maxfbspeed *= 1.25f;
+ 		}
 	}
 
 	// Mann Vs Machine mode has a speed penalty for carrying the flag
@@ -12741,18 +12741,10 @@ bool CTFPlayer::CanAirDash( void ) const
 
 	CTFWeaponBase *pTFActiveWeapon = GetActiveTFWeapon();
 	int iDashCount = tf_scout_air_dash_count.GetInt();
-	CALL_ATTRIB_HOOK_INT_ON_OTHER( pTFActiveWeapon, iDashCount, air_dash_count );
+	CALL_ATTRIB_HOOK_INT(iDashCount, air_dash_count);
 
 	if ( m_Shared.GetAirDash() >= iDashCount )
 		return false;
-
-	if ( pTFActiveWeapon )
-	{
-		// TODO(driller): Hack fix to restrict this to The Atomzier (currently the only item that uses this attribute) on what would be the third jump
-		float flTimeSinceDeploy = gpGlobals->curtime - pTFActiveWeapon->GetLastDeployTime();
-		if ( iDashCount >= 2 && m_Shared.GetAirDash() == 1 && flTimeSinceDeploy < 0.7f )
-			return false;
-	}
 
 	int iNoAirDash = 0;
 	CALL_ATTRIB_HOOK_INT( iNoAirDash, set_scout_doublejump_disabled );
@@ -14009,17 +14001,17 @@ void CTFPlayerShared::SetScoutHypeMeter( float val )
 		return;
 
 	m_flHypeMeter = Clamp(val, 0.0f, 100.0f);
-	//if ( m_flHypeMeter >= 100.f )
-	//{
-	//	if ( m_pOuter->IsPlayerClass( TF_CLASS_SCOUT ) )
-	//	{
-	//		CTFWeaponBase* pWeapon = m_pOuter->GetActiveTFWeapon();
-	//		if ( pWeapon && pWeapon->GetWeaponID() == TF_WEAPON_SODA_POPPER )
-	//		{
-	//			AddCond( TF_COND_CRITBOOSTED_HYPE );
-	//		}
-	//	}
-	//}
+	if ( m_flHypeMeter >= 100.f )
+	{
+		if ( m_pOuter->IsPlayerClass( TF_CLASS_SCOUT ) )
+		{
+			CTFWeaponBase* pWeapon = m_pOuter->GetActiveTFWeapon();
+			if ( pWeapon && pWeapon->GetWeaponID() == TF_WEAPON_SODA_POPPER )
+			{
+				AddCond(TF_COND_SODAPOPPER_HYPE);
+			}
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
