@@ -215,6 +215,7 @@ void CTFPistol_ScoutPrimary::Precache( void )
 	PrecacheScriptSound( "Weapon_Hands.PushImpact" );
 	
 	BaseClass::Precache();
+	m_iPrimaryAmmoType = TF_AMMO_SECONDARY;
 }
 
 //============================
