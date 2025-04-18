@@ -216,12 +216,6 @@ enum TFPassTimeThrowAnimState_t
 	PASSTIME_THROW_ANIM_END
 };
 
-enum TFCYOAPDAAnimState_t
-{
-	CYOA_PDA_ANIM_NONE = 0,
-	CYOA_PDA_ANIM_IDLE,
-	CYOA_PDA_ANIM_OUTRO
-};
 
 //=============================================================================
 //
@@ -1274,8 +1268,6 @@ public:
 	float m_flPasstimeThrowAnimStateTime;
 	TFPassTimeThrowAnimState_t	m_iPasstimeThrowAnimState;
 
-	float m_flCYOAPDAAnimStateTime;
-	TFCYOAPDAAnimState_t m_iCYOAPDAAnimState;
 
 private:
 	CNetworkVar( bool, m_bHasPasstimeBall );
