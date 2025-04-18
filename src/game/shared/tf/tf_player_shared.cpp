@@ -6205,6 +6205,7 @@ void CTFPlayer::RemoveMeleeCrit( void )
 {
 	m_Shared.SetNextMeleeCrit( MELEE_NOCRIT );
 	m_Shared.m_bPostShieldCharge = false;
+	m_Shared.SetShieldImpact(false);
 	// Remove crit boost right away.  DemoShieldChargeThink depends on m_bPostShieldCharge being true
 	// to attempt to remove crits (which we just cleared) so clear crits here as well.
 	if ( m_Shared.InCond( TF_COND_CRITBOOSTED_DEMO_CHARGE ) )
@@ -7140,7 +7141,7 @@ void CTFPlayerShared::OnAddFeignDeath( void )
 {
 #ifdef CLIENT_DLL
 	// STAGING_SPY
-	AddUberScreenEffect( m_pOuter );
+	//AddUberScreenEffect( m_pOuter );
 #else
 #endif
 	// Go stealth w/o sound or fade out.
@@ -7151,8 +7152,8 @@ void CTFPlayerShared::OnAddFeignDeath( void )
 
 	// STAGING_SPY
 	// Add a speed boost while feigned and afterburn immunity while running away
-	AddCond( TF_COND_SPEED_BOOST, tf_feign_death_speed_duration.GetFloat() );
-	AddCond( TF_COND_AFTERBURN_IMMUNE, tf_feign_death_speed_duration.GetFloat() );
+	//AddCond( TF_COND_SPEED_BOOST, tf_feign_death_speed_duration.GetFloat() );
+	//AddCond( TF_COND_AFTERBURN_IMMUNE, tf_feign_death_speed_duration.GetFloat() );
 
 	SetFeignDeathReady( false );
 
@@ -7166,7 +7167,7 @@ void CTFPlayerShared::OnRemoveFeignDeath( void )
 {
 #ifdef CLIENT_DLL
 	// STAGING_SPY
-	RemoveUberScreenEffect( m_pOuter );
+	//RemoveUberScreenEffect( m_pOuter );
 #endif
 	// Previous code removed cloak meter, this has been moved to on RemoveStealth checking for steath type
 	// FeignDeath is the duration of cloak where speed, no shimmer and damage reduction take place
@@ -14001,17 +14002,17 @@ void CTFPlayerShared::SetScoutHypeMeter( float val )
 		return;
 
 	m_flHypeMeter = Clamp(val, 0.0f, 100.0f);
-	if ( m_flHypeMeter >= 100.f )
-	{
-		if ( m_pOuter->IsPlayerClass( TF_CLASS_SCOUT ) )
-		{
-			CTFWeaponBase* pWeapon = m_pOuter->GetActiveTFWeapon();
-			if ( pWeapon && pWeapon->GetWeaponID() == TF_WEAPON_SODA_POPPER )
-			{
-				AddCond(TF_COND_SODAPOPPER_HYPE);
-			}
-		}
-	}
+	//if ( m_flHypeMeter >= 100.f )
+	//{
+		//if ( m_pOuter->IsPlayerClass( TF_CLASS_SCOUT ) )
+		//{
+			//CTFWeaponBase* pWeapon = m_pOuter->GetActiveTFWeapon();
+			//if ( pWeapon && pWeapon->GetWeaponID() == TF_WEAPON_SODA_POPPER )
+			//{
+				//AddCond(TF_COND_SODAPOPPER_HYPE);
+			//}
+		//}
+	//}
 }
 
 //-----------------------------------------------------------------------------

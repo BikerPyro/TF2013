@@ -17087,9 +17087,9 @@ void CTFGameRules::SetUpVisionFilterKeyValues( void )
 	pKVFlag = new KeyValues( "1" );		//TF_VISION_FILTER_PYRO
 	pKVFlag->SetString( "new_flame", "flamethrower_rainbow_new_flame");							// We weren't changing the default flamethrower previously; let's do that going forward
 	pKVFlag->SetString( "flamethrower_rainbow_new_flame", "flamethrower_rainbow_new_flame" );	// Rainblower defaults to rainbows and we want to ensure that we use it
-	//pKVFlag->SetString( "flamethrower_rainbow_FP", "flamethrower_rainbow_FP" );
+	pKVFlag->SetString( "flamethrower_rainbow_FP", "flamethrower_rainbow_FP" );
 	pKVFlag->SetString( "projectile_fireball", "projectile_fireball_pyrovision" );
-	pKVFlag->SetString( "taunt_pyro_gasblast_fireblast", "taunt_pyro_gasblast_rainbow" );
+	//pKVFlag->SetString( "taunt_pyro_gasblast_fireblast", "taunt_pyro_gasblast_rainbow" );
 	pKVFlag->SetString( "burningplayer_blue", "burningplayer_rainbow_blue" );
 	pKVFlag->SetString( "burningplayer_red", "burningplayer_rainbow_red" );
 	pKVFlag->SetString( "burningplayer_corpse", "burningplayer_corpse_rainbow" );

@@ -2719,7 +2719,7 @@ void CTFGameMovement::FullWalkMove()
  			float fDist = speed*gpGlobals->frametime;
  			float fHype = m_pTFPlayer->m_Shared.GetScoutHypeMeter() + (fDist / tf_scout_hype_mod.GetFloat());
  			if ( fHype > 100.f )
- 				fHype = 100.f;
+				fHype = 100.f;
  			m_pTFPlayer->m_Shared.SetScoutHypeMeter( fHype );
  		}
  	}

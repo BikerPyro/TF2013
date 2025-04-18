@@ -320,7 +320,6 @@ void CTFFlameThrower::Precache( void )
 	PrecacheGibsForModel( iModelIndex );
 
 	PrecacheParticleSystem( "pyro_blast" );
-	PrecacheParticleSystem( "flamethrower_rope" );
 	PrecacheScriptSound( "Weapon_FlameThrower.AirBurstAttack" );
 	PrecacheScriptSound( "TFPlayer.AirBlastImpact" );
 	PrecacheScriptSound( "Weapon_FlameThrower.AirBurstAttackDeflect" );
@@ -329,8 +328,6 @@ void CTFFlameThrower::Precache( void )
 	PrecacheParticleSystem( "medicgun_invulnstatus_fullcharge_blue" );
 	PrecacheParticleSystem( "medicgun_invulnstatus_fullcharge_red" );
 	PrecacheParticleSystem( "halloween_burningplayer_flyingbits" );
-	PrecacheParticleSystem( "torch_player_burn" );
-	PrecacheParticleSystem( "torch_red_core_1" );
 
 	// for airblast projectile turn into ammopack
 	PrecacheModel( "models/items/ammopack_small.mdl" );

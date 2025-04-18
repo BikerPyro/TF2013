@@ -162,13 +162,14 @@ void CTFWearableDemoShield::ShieldBash( CTFPlayer *pPlayer, float flCurrentCharg
 
 	// Play an impact sound.
 	bool bImpactDamage = false;
+	float flBashDamage = CalculateChargeDamage(flCurrentChargeMeter);
 	if ( trace.m_pEnt )
 	{
 		const char* pszSoundName = "";
 		if ( trace.m_pEnt->IsPlayer() )
 		{
 			bImpactDamage = true;
-			pszSoundName = "DemoCharge.HitFleshRange";
+			pszSoundName = flBashDamage > 0 ? "DemoCharge.HitFleshRange" : "DemoCharge.HitFlesh";
 		}
 		else
 		{
@@ -180,7 +181,6 @@ void CTFWearableDemoShield::ShieldBash( CTFPlayer *pPlayer, float flCurrentCharg
 	// Apply impact damage, if any.
 	if ( bImpactDamage )
 	{
-		float flBashDamage = CalculateChargeDamage( flCurrentChargeMeter );
 		CTakeDamageInfo info;
 		info.SetAttacker( pOwner );
 		info.SetInflictor( this ); 
@@ -195,6 +195,8 @@ void CTFWearableDemoShield::ShieldBash( CTFPlayer *pPlayer, float flCurrentCharg
 		AngleVectors( pOwner->GetAbsAngles(), &dir );
 		trace.m_pEnt->DispatchTraceAttack( info, dir, &trace );
 		ApplyMultiDamage();
+
+		pOwner->m_Shared.SetShieldImpact(true);
 
 		// Calculate charge crit if we did any bash damage
 		pOwner->m_Shared.CalcChargeCrit();
@@ -216,11 +218,18 @@ float CTFWearableDemoShield::CalculateChargeDamage( float flCurrentChargeMeter )
 	if ( !pOwner )
 		return flImpactDamage;
 
+	int iFullImpactDamage = 0;
+	CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(pOwner, iFullImpactDamage, no_charge_impact_range);
+	if (iFullImpactDamage == 1)
+	{
+		flImpactDamage = 50.0f;
+	}
+
 	// Cap at 5 decapitations for dmg bonus
 	int iDecaps = Min( pOwner->m_Shared.GetDecapitations(), 5 );
 	if ( iDecaps > 0 )
 	{
-		flImpactDamage *= (1.0f + iDecaps * 0.1f );
+		flImpactDamage *= (1.0f + iDecaps * 0.2f );
 	}
 
 	CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pOwner, flImpactDamage, charge_impact_damage );

@@ -3064,7 +3064,6 @@ void CTFPlayer::PrecacheTFPlayer()
 	PrecacheParticleSystem( "drg_pomson_muzzleflash" );
 	PrecacheParticleSystem( "drg_pomson_impact" );
 	PrecacheParticleSystem( "drg_pomson_impact_drain" );
-	PrecacheParticleSystem( "dragons_fury_effect" );
 
 	PrecacheParticleSystem( "dxhr_arm_muzzleflash" );
 
