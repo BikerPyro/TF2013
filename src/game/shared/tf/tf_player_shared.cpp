@@ -7356,6 +7356,11 @@ void CTFPlayerShared::OnRemoveStunned( void )
 #else
 	m_PlayerStuns.RemoveAll();
 #endif
+	CTFWeaponBase* pWpn = m_pOuter->GetActiveTFWeapon();
+	if (pWpn)
+	{
+		pWpn->SetWeaponVisible(true);
+	}
 
 	m_pOuter->TeamFortress_SetSpeed();
 }

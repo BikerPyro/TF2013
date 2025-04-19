@@ -1058,6 +1058,18 @@ void CTFGameMovement::AirDash( void )
 		}
 #endif
 	}
+	else
+	{
+#ifdef GAME_DLL
+		if (
+			!m_pTFPlayer->m_Shared.InCond(TF_COND_HALLOWEEN_SPEED_BOOST)
+			&& !m_pTFPlayer->m_Shared.InCond(TF_COND_SODAPOPPER_HYPE)
+			)
+		{
+			m_pTFPlayer->TakeDamage(CTakeDamageInfo(m_pTFPlayer, m_pTFPlayer, vec3_origin, m_pTFPlayer->WorldSpaceCenter(), 10.f, DMG_BULLET));
+		}
+#endif
+	}
 
 	m_pTFPlayer->m_Shared.SetAirDash( iAirDash+1 );
 
